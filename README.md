@@ -283,3 +283,16 @@ if __name__ == "__main__":
             agent.model.save_weights("./save_model/breakout_dqn.h5")
 ```
 
+학습시키는 법
+---------
+1. 리눅스(Ubuntu) 개발 환경을 구축한다. (18.04.5 이하 추천)
+2. 아래 순서로 명령어들을 입력하여 학습을 시작한다.
+
+clone DQN algorithm in github
+`$ git clone https://github.com/deepmind/dqn`
+
+
+한계
+---------
+1. 학습 시간이 매우 오래걸린다.
+2. 최근에 나온 알고리즘이 아니라서 deprecated 된 함수가 많아, 게임을 학습하는 것을 display 하지 못하였다.
