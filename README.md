@@ -182,3 +182,103 @@ class DQNAgent:
         summary_op = tf.summary.merge_all()
         return summary_placeholders, update_ops, summary_op
 ```
+
+Main Code
+----------
+
+```python
+if __name__ == "__main__":
+    # 환경과 DQN 에이전트 생성
+    env = gym.make('BreakoutDeterministic-v4')
+    agent = DQNAgent(action_size=3)
+ 
+    scores, episodes, global_step = [], [], 0
+ 
+    for e in range(EPISODES):
+        done = False
+        dead = False
+ 
+        step, score, start_life = 0, 0, 5
+        observe = env.reset()
+ 
+        for _ in range(random.randint(1, agent.no_op_steps)):
+            observe, _, _, _ = env.step(1)
+ 
+        state = pre_processing(observe)
+        history = np.stack((state, state, state, state), axis=2)
+        history = np.reshape([history], (1, 84, 84, 4))
+ 
+        while not done:
+            if agent.render:
+                env.render()
+            global_step += 1
+            step += 1
+ 
+            # 바로 전 4개의 상태로 행동을 선택
+            action = agent.get_action(history)
+            # 1: 정지, 2: 왼쪽, 3: 오른쪽
+            if action == 0:
+                real_action = 1
+            elif action == 1:
+                real_action = 2
+            else:
+                real_action = 3
+ 
+            # 선택한 행동으로 환경에서 한 타임스텝 진행
+            observe, reward, done, info = env.step(real_action)
+            # 각 타임스텝마다 상태 전처리
+            next_state = pre_processing(observe)
+            next_state = np.reshape([next_state], (1, 84, 84, 1))
+            next_history = np.append(next_state, history[:, :, :, :3], axis=3)
+ 
+            agent.avg_q_max += np.amax(
+                agent.model.predict(np.float32(history / 255.))[0])
+ 
+            if start_life > info['ale.lives']:
+                dead = True
+                start_life = info['ale.lives']
+ 
+            reward = np.clip(reward, -1., 1.)
+            # 샘플 <s, a, r, s'>을 리플레이 메모리에 저장 후 학습
+            agent.append_sample(history, action, reward, next_history, dead)
+ 
+            if len(agent.memory) >= agent.train_start:
+                agent.train_model()
+ 
+            # 일정 시간마다 타겟모델을 모델의 가중치로 업데이트
+            if global_step % agent.update_target_rate == 0:
+                agent.update_target_model()
+ 
+            score += reward
+ 
+            if dead:
+                dead = False
+            else:
+                history = next_history
+ 
+            if done:
+                # 각 에피소드 당 학습 정보를 기록
+                if global_step > agent.train_start:
+                    stats = [score, agent.avg_q_max / float(step), step,
+                             agent.avg_loss / float(step)]
+ 
+                    for i in range(len(stats)):
+                        agent.sess.run(agent.update_ops[i], feed_dict={
+                            agent.summary_placeholders[i]: float(stats[i])
+                        })
+                    summary_str = agent.sess.run(agent.summary_op)
+                    agent.summary_writer.add_summary(summary_str, e + 1)
+ 
+                print("episode:", e, "  score:", score, "  memory length:",
+                      len(agent.memory), "  epsilon:", agent.epsilon,
+                      "  global_step:", global_step, "  average_q:",
+                      agent.avg_q_max / float(step), "  average loss:",
+                      agent.avg_loss / float(step))
+ 
+                agent.avg_q_max, agent.avg_loss = 0, 0
+ 
+        # 1000 에피소드마다 모델 저장
+        if e % 1000 == 0:
+            agent.model.save_weights("./save_model/breakout_dqn.h5")
+```
+
