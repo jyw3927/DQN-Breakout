@@ -285,15 +285,15 @@ if __name__ == "__main__":
 <br>
 학습시키는 법
 ---------
-1. 리눅스(Ubuntu) 개발 환경을 구축한다. (18.04.5 이하 추천)
-2. 아래 순서로 명령어들을 입력하여 torch를 설치한다.
+1. 리눅스(Ubuntu) 개발 환경을 구축한다. (18.04.5 이하 추천)<br>
+2. 아래 순서로 명령어들을 입력하여 torch를 설치한다.<br>
 
 `$ git clone https://github.com/torch/distro.git ~/torch --recursive`<br>
 `$ cd ~/torch`<br>
 `$ bash install-deps;`<br>
 `$ ./install.sh`<br>
 
-3. 아래 순서로 명령어들을 입력하여 학습을 시작한다.
+3. 아래 순서로 명령어들을 입력하여 학습을 시작한다.<br>
 clone DQN algorithm in github
 `$ git clone https://github.com/deepmind/dqn`<br>
 `$ ./install_dependencies.sh`<br>
