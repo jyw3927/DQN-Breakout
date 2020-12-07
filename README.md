@@ -8,14 +8,15 @@ Deepmind의 DQN(Deep Q Network)을 이용하여 벽돌깨기 게임 학습시키
 
 다루게 될 기술
 -------
-
-
+1. LuaJIT
+2. Torch 7.0
+3. nngraph
 
 프로젝트 개요
 -------
 1. 게임 데이터: Breakout (Atari)
 2. 알고리즘: DQN Breakout Algorithm
-3. 출처:https://github.com/rlcode/reinforcement-learning/blob/master/3-atari/1-breakout/breakout_dqn.py
+3. 출처: https://github.com/deepmind/dqn
 4. Atari사의 벽돌깨기 게임인 ‘Breakout’과 DeepMind사의 DQN 알고리즘을 통해 인공지능에
 게 게임을 학습시킨다.
 
