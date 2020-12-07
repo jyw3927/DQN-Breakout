@@ -4,13 +4,13 @@ Deepmind의 DQN(Deep Q Network)을 이용하여 벽돌깨기 게임 학습시키
  
 프로젝트를 하게 된 계기
 -------
-알파고를 만든 회사인 DeepMind의 초기 알고리즘인 DQN(Deep Q Network)은, 단 몇 시간 만에 현존하는 최고의 벽돌깨기 게이머를 압도하는 것을 보여주었습니다 데이터들을 주지 않고 그저 처음 보는 게임을 시켜보았을 뿐인데, 시간에 지남에 따라 스스로 학습하고 가장 효율적인 플레이를 하게 되는 것에 큰 흥미를 느끼게 되어 프로젝트 주제로 선정하게 되었습니다.
+알파고를 만든 회사인 DeepMind의 초기 알고리즘인 DQN(Deep Q Network)은, 단 몇 시간 만에 현존하는 최고의 벽돌깨기 게이머를 압도하는 것을 보여주었습니다 데이터들을 주지 않고 그저 처음 보는 게임을 시켜보았을 뿐인데, 시간에 지남에 따라 스스로 학습하고 가장 효율적인 플레이를 하게 되는 것에 큰 흥미를 느끼게 되어 프로젝트 주제로 선정하게 되었습니다.<br>
 
 다루게 될 기술
 -------
 1. LuaJIT
 2. Torch 7.0
-3. nngraph
+3. nngraph<br>
 
 프로젝트 개요
 -------
@@ -18,7 +18,7 @@ Deepmind의 DQN(Deep Q Network)을 이용하여 벽돌깨기 게임 학습시키
 2. 알고리즘: DQN Breakout Algorithm
 3. 출처: https://github.com/deepmind/dqn
 4. Atari사의 벽돌깨기 게임인 ‘Breakout’과 DeepMind사의 DQN 알고리즘을 통해 인공지능에
-게 게임을 학습시킨다.
+게 게임을 학습시킨다.<br>
 
 동영상 링크
 -----
@@ -27,7 +27,7 @@ Deepmind의 DQN(Deep Q Network)을 이용하여 벽돌깨기 게임 학습시키
 기대효과
 -------
 1. 데이터를 따로 주지 않았음에도, 픽셀과 보상(게임 점수)이라는 두 가지 만으로 스스로 게임의 진행과 플레이 방식에 대해 알아내는 것을 확인할 수 있음. 
-2. 게임이 진행될수록 인공지능이 발전하여 그저 플레이 하는 것에서 더욱 나아가 한층 발전된 전략 등을 구사하는 것으로 AI의 잠재력과 가능성을 시사함.
+2. 게임이 진행될수록 인공지능이 발전하여 그저 플레이 하는 것에서 더욱 나아가 한층 발전된 전략 등을 구사하는 것으로 AI의 잠재력과 가능성을 시사함.<br>
 
 
 DQN Agent Code
@@ -183,7 +183,7 @@ class DQNAgent:
         summary_op = tf.summary.merge_all()
         return summary_placeholders, update_ops, summary_op
 ```
-
+<br>
 Main Code
 ----------
 
@@ -282,23 +282,23 @@ if __name__ == "__main__":
         if e % 1000 == 0:
             agent.model.save_weights("./save_model/breakout_dqn.h5")
 ```
-
+<br>
 학습시키는 법
 ---------
 1. 리눅스(Ubuntu) 개발 환경을 구축한다. (18.04.5 이하 추천)
 2. 아래 순서로 명령어들을 입력하여 torch를 설치한다.
 
-`git clone https://github.com/torch/distro.git ~/torch --recursive`
-`cd ~/torch; bash install-deps;`
-`./install.sh`
+`$ git clone https://github.com/torch/distro.git ~/torch --recursive`<br>
+`$ cd ~/torch`<br>
+`$ bash install-deps;`<br>
+`$ ./install.sh`<br>
 
 3. 아래 순서로 명령어들을 입력하여 학습을 시작한다.
-
-
 clone DQN algorithm in github
-`$ git clone https://github.com/deepmind/dqn`
-
-
+`$ git clone https://github.com/deepmind/dqn`<br>
+`$ ./install_dependencies.sh`<br>
+roms 폴더에 breakout.bin 파일을 다운받은 뒤<br>
+`$ ./run_cpu breakout`<br>
 
 한계
 ---------
